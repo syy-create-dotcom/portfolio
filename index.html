@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUN YIYI — Portfolio</title>
+<style>
+  :root {
+    --sidebar: #0B0B0B;
+    --bg: #141414;
+    --card: #1C1C1C;
+    --accent: #C8A44E;
+    --accent-dim: rgba(200,164,78,0.15);
+    --text: #EDEDED;
+    --text-dim: #A0A0A0;
+    --text-muted: #666;
+    --border: #2A2A2A;
+    --sidebar-w: 280px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top:0; left:0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--sidebar);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 36px 32px;
+    z-index: 10;
+    border-right: 1px solid var(--border);
+  }
+
+  .sidebar-top .name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #FFF;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+  .sidebar-top .role {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .sidebar-nav { list-style:none; margin-top: -40px; }
+  .sidebar-nav li { margin-bottom: 6px; }
+  .sidebar-nav a {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: color 0.25s, padding 0.25s;
+    letter-spacing: 0.03em;
+  }
+  .sidebar-nav a:hover,
+  .sidebar-nav a.active { color: #FFF; padding-left: 6px; }
+  .sidebar-nav a .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: background 0.25s, transform 0.25s;
+    flex-shrink: 0;
+  }
+  .sidebar-nav a:hover .dot,
+  .sidebar-nav a.active .dot { background: var(--accent); transform: scale(1.6); }
+
+  .sidebar-bottom {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .sidebar-bottom .socials {
+    display: flex; gap: 16px; margin-bottom: 16px;
+  }
+  .sidebar-bottom .socials a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .sidebar-bottom .socials a:hover { color: var(--accent); }
+
+  /* ── Main ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex:1;
+    padding: 0 80px;
+    min-height: 100vh;
+  }
+
+  section { padding: 80px 0; min-height: 60vh; }
+  section:first-of-type { min-height: 100vh; display:flex; align-items:center; }
+
+  .section-tag {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #FFF;
+    margin-bottom: 36px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Hero ── */
+  .hero-grid {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
+  }
+  .hero-text { flex:1; }
+  .hero-text h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: #FFF;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero-text .sub {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+    max-width: 460px;
+    line-height: 1.8;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn:hover { background: var(--accent); color: #0B0B0B; }
+
+  .hero-photo {
+    width: 260px; height: 340px;
+    background: #1C1C1C;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hero-photo img { width:100%; height:100%; object-fit:cover; border-radius:3px; }
+
+  /* ── About numbers ── */
+  .about-text { color: var(--text-dim); font-size: 1.02rem; max-width: 600px; margin-bottom: 40px; line-height: 1.9; }
+  .stat-row { display: flex; gap: 48px; }
+  .stat-item .stat-num { font-size: 2.2rem; font-weight: 800; color: #FFF; }
+  .stat-item .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* ── Skills ── */
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .skill-card:hover { border-color: var(--accent); background: #202020; }
+  .skill-icon {
+    width: 44px; height: 44px;
+    background: var(--accent-dim);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+    color: var(--accent);
+  }
+  .skill-info h3 { font-size: 1rem; font-weight: 700; color: #FFF; margin-bottom: 4px; }
+  .skill-info p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
+
+  /* ── Projects ── */
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    transition: border-color 0.25s;
+  }
+  .project-card:hover { border-color: var(--accent); }
+  .project-card .proj-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 12px;
+    background: var(--accent-dim);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .project-card h3 { font-size: 1.25rem; font-weight: 700; color: #FFF; margin-bottom: 6px; }
+  .project-card .proj-sub { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px; }
+  .project-card .algo-list { margin-bottom: 16px; }
+  .project-card .algo-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-card .algo-item:last-child { border-bottom: none; }
+  .project-card .algo-item h4 { color: #FFF; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .project-card .algo-item p { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+  .project-card .proj-summary { color: var(--text-dim); font-size: 0.9rem; line-height: 1.8; margin-top: 8px; }
+  .tag-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .tag-row span {
+    font-size: 0.75rem; background: #252525;
+    color: var(--text-dim); padding: 4px 12px;
+    border-radius: 4px; border: 1px solid var(--border);
+  }
+
+  /* ── Education ── */
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.25s;
+  }
+  .edu-card:hover { border-color: var(--accent); }
+  .edu-card .edu-info h3 { font-size: 1.15rem; font-weight: 700; color: #FFF; margin-bottom: 4px; }
+  .edu-card .edu-info p { color: var(--text-dim); font-size: 0.9rem; }
+  .edu-card .edu-badge {
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* ── Contact ── */
+  #contact .contact-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px 40px;
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+  #contact .contact-item { display:flex; gap: 12px; align-items: center; }
+  #contact .contact-item .ci-icon {
+    width: 40px; height: 40px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  #contact .contact-item .ci-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  #contact .contact-item .ci-val { color: #FFF; font-weight: 600; font-size: 0.95rem; }
+  #contact a.ci-val { text-decoration: none; transition: color 0.2s; }
+  #contact a.ci-val:hover { color: var(--accent); }
+
+  /* ── scroll indicator ── */
+  .page-indicator {
+    position: fixed;
+    bottom: 32px; right: 40px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    z-index: 5;
+  }
+
+  /* ── mobile ── */
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar {
+      position: relative;
+      width: 100%; height: auto;
+      flex-direction: row;
+      padding: 20px;
+      align-items: center;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-nav { display: none; }
+    .sidebar-bottom { display: none; }
+    .sidebar-top .name { font-size: 1.2rem; }
+    .sidebar-top .role { font-size: 0.7rem; }
+    .main { margin-left: 0; padding: 0 24px; }
+    section { padding: 48px 0; min-height: auto; }
+    section:first-of-type { min-height: auto; padding-top: 40px; }
+    .hero-grid { flex-direction: column-reverse; gap: 30px; }
+    .hero-photo { width: 180px; height: 240px; }
+    .section-title { font-size: 1.6rem; }
+    .stat-row { gap: 24px; }
+    .skill-card { flex-direction: column; gap: 12px; }
+    .edu-card { flex-direction: column; gap: 12px; align-items: flex-start; }
+    #contact .contact-box { flex-direction: column; gap: 20px; }
+    .page-indicator { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="name">SUN YIYI</div>
+    <div class="role">Computer Vision Engineer</div>
+  </div>
+  <ul class="sidebar-nav">
+    <li><a href="#home" class="active"><span class="dot"></span>Home</a></li>
+    <li><a href="#about"><span class="dot"></span>About</a></li>
+    <li><a href="#skills"><span class="dot"></span>Skills</a></li>
+    <li><a href="#projects"><span class="dot"></span>Projects</a></li>
+    <li><a href="#education"><span class="dot"></span>Education</a></li>
+    <li><a href="#contact"><span class="dot"></span>Contact</a></li>
+  </ul>
+  <div class="sidebar-bottom">
+    <div class="socials">
+      <a href="https://github.com/syy-create-dotcom" target="_blank">GitHub</a>
+      <a href="mailto:2955580261@qq.com">Email</a>
+    </div>
+    <div>&copy; 2026 SUN YIYI</div>
+  </div>
+</aside>
+
+<!-- ── Main Content ── -->
+<main class="main">
+
+  <!-- Home -->
+  <section id="home">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>HELLO,<br>I'M SUNYIYI.</h1>
+        <p class="sub">智能科学与技术专业 · 计算机视觉方向<br>湖南大学计算机学院</p>
+        <a href="#" class="btn">DOWNLOAD CV &darr;</a>
+      </div>
+      <div class="hero-photo">
+        <span>📷</span><span style="font-size:0.75rem">Photo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-tag">About</div>
+    <h2 class="section-title">关于我</h2>
+    <p class="about-text">
+      就读于湖南大学计算机学院智能科学与技术专业，专注于<strong style="color:#FFF">计算机视觉</strong>方向的算法研究与工程实践。
+      具备扎实的图像处理理论基础与丰富的项目开发经验，对视觉特效渲染、图像分析与底层算法设计有深入理解。
+      享受从理论推导到代码落地的完整过程，致力于用技术解决真实世界中的视觉问题。
+    </p>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">1+</div>
+        <div class="stat-label">企业联合研发项目</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">核心算法自主研发</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">211</div>
+        <div class="stat-label">Project University</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-tag">Skills</div>
+    <h2 class="section-title">技术栈</h2>
+
+    <div class="skill-card">
+      <div class="skill-icon">{ }</div>
+      <div class="skill-info">
+        <h3>C / C++</h3>
+        <p>精通面向对象程序设计，具备高性能计算与系统级开发经验。熟练运用 STL 与现代 C++ 特性进行算法实现与性能优化，擅长图像处理相关底层开发。</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">Py</div>
+      <div class="skill-info">
+        <h3>Python</h3>
+        <p>熟练运用 OpenCV、NumPy 等科学计算与图像处理库。具备 PyTorch 深度学习框架使用经验，擅于计算机视觉算法原型开发与实验验证。</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">$</div>
+      <div class="skill-info">
+        <h3>Linux</h3>
+        <p>熟悉 Linux 系统环境下的开发、调试与部署流程，具备 Shell 脚本编写及服务器运维基础，能在命令行环境下高效完成日常开发任务。</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">&#9673;</div>
+      <div class="skill-info">
+        <h3>OpenCV</h3>
+        <p>深入理解图像处理核心算法，具备图像滤波、特征提取、目标检测及视觉特效渲染等模块的开发与调优经验，能独立完成从算法设计到工程落地。</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">&harr;</div>
+      <div class="skill-info">
+        <h3>TCP/IP &amp; 网络协议</h3>
+        <p>掌握 TCP/IP 协议栈原理与 Socket 编程模型，理解网络通信机制及常用应用层协议，具备基础的网络应用开发与调试能力。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-tag">Projects</div>
+    <h2 class="section-title">项目经历</h2>
+
+    <div class="project-card">
+      <div class="proj-tag">Huawei · 联合研发课题</div>
+      <h3>视觉特效渲染算法研发</h3>
+      <p class="proj-sub">独立主导三类核心算法的全流程设计、实现与系统集成</p>
+
+      <div class="algo-list">
+        <div class="algo-item">
+          <h4>星芒特效 &mdash; 基于衍射模型的自适应渲染算法</h4>
+          <p>设计并实现了基于物理衍射模型的实时星芒渲染算法。通过频域滤波与自适应阈值优化，在保证实时性能的前提下实现高强度光源的自然衍射效果，支持多参数可调控。</p>
+        </div>
+        <div class="algo-item">
+          <h4>拉丝特效 &mdash; 基于运动矢量场的动态拖影算法</h4>
+          <p>提出了一种结合帧间光流估计与方向性模糊核的运动矢量场算法，精确计算像素级运动轨迹，实现了高速运动场景下拖影特效的高质量渲染。</p>
+        </div>
+        <div class="algo-item">
+          <h4>希区柯克变焦 &mdash; 视场压缩与背景缩放联合优化</h4>
+          <p>实现了连续变焦过程中的视场压缩与背景缩放算法。通过透视变换与自适应图像裁剪的联合优化策略，达成平滑的滑动变焦视觉效果，解决了传统方案中的画面抖动问题。</p>
+        </div>
+      </div>
+
+      <p class="proj-summary">独立完成特效模块的开发、调试及系统集成，确保各模块在目标硬件平台上的实时渲染性能与参数可调控性，成功达成课题全部技术指标。</p>
+
+      <div class="tag-row">
+        <span>C++</span><span>OpenCV</span><span>图像处理</span><span>算法设计</span><span>实时渲染</span><span>系统集成</span><span>光流估计</span><span>频域滤波</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education">
+    <div class="section-tag">Education</div>
+    <h2 class="section-title">教育经历</h2>
+    <div class="edu-card">
+      <div class="edu-info">
+        <h3>湖南大学</h3>
+        <p>计算机学院 · 智能科学与技术专业</p>
+      </div>
+      <div class="edu-badge">本科在读</div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-tag">Contact</div>
+    <h2 class="section-title">联系方式</h2>
+    <div class="contact-box">
+      <div class="contact-item">
+        <div class="ci-icon">@</div>
+        <div>
+          <div class="ci-label">Email</div>
+          <a class="ci-val" href="mailto:2955580261@qq.com">2955580261@qq.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ci-icon">&gt;</div>
+        <div>
+          <div class="ci-label">GitHub</div>
+          <a class="ci-val" href="https://github.com/syy-create-dotcom" target="_blank">syy-create-dotcom</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="page-indicator" id="pageIndicator">01 / 06</div>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('section');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  var indicator = document.getElementById('pageIndicator');
+  var total = sections.length;
+
+  function updateNav(){
+    var scrollY = window.pageYOffset + 200;
+    var current = 0;
+    sections.forEach(function(sec, i){
+      if(sec.offsetTop <= scrollY) current = i;
+    });
+    navLinks.forEach(function(a){ a.classList.remove('active'); });
+    if(navLinks[current]) navLinks[current].classList.add('active');
+    indicator.textContent = ('0'+(current+1)).slice(-2) + ' / ' + ('0'+total).slice(-2);
+  }
+
+  window.addEventListener('scroll', updateNav, {passive:true});
+  updateNav();
+})();
+</script>
+</body>
+</html>
